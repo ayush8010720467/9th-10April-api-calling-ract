@@ -3,6 +3,7 @@ import './App.css';
 import React from 'react'
 import axios from 'axios';
 import Loader from './Loader';
+import Card from './Card';
 class App extends React.Component{
   constructor(props){
     super(props);
@@ -20,7 +21,7 @@ class App extends React.Component{
     //   console.log('Error ', err);
     // })
     axios.get(url).
-          then((resp)=>{console.log('Response', resp);
+          then((resp)=>{
             this.setState({
               data: resp.data
             })
@@ -36,9 +37,18 @@ class App extends React.Component{
   showHTML(html){
     return  `${html}`
   }
+  getAllElems(data){
+    console.log("getAllElems",data)
+    return <>
+            {data.map((elem,index)=>{ return <Card key={index} data={elem}></Card>})}
+      </>
+  }
   render(){
     // return <>{this.state.data?(<div dangerouslySetInnerHTML={{ __html: this.state.data }} ></div>): 'AppComponent rendered'}</>
-    return <>{this.state.data?'AppComponent rendered': <Loader/>}</>
+    return <>{this.state.data?
+      this.getAllElems(this.state.data)
+      : <Loader/>}</>
+    // return <Card/>
   }
 }
 
